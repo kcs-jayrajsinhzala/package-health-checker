@@ -42,10 +42,8 @@ const getIssuesCount = async (owner, pack_name) => {
                             .catch(error => reject(error.response.data.message));
                     }, (resetTime.getTime() - Date.now()) + 1000); // add 1 second to wait for reset
                 } else if(error.response.status === 422 && error.response.data.message.includes("Validation Failed")) {
-                    console.log("hello");
                     axios.get(`https://api.github.com/repos/${owner}/${pack_name}`)
                         .then(response => {
-                            console.log(response.data.html_url);
                             const repoOwner = GitUrlParse(response.data.html_url).owner;
                             const repoName = GitUrlParse(response.data.html_url).name;
                             getIssuesCount(repoOwner, repoName)
